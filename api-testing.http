@@ -55,6 +55,14 @@ Content-Type: application/json
 ###
 DELETE http://localhost:3000/m/3 HTTP/1.1
 
+
+###### customers
+
+###
+http://localhost:3000/customers/?search=SAIC
+
+###
+http://localhost:3000/customers/
 ###### manufacturers
 
 ###

@@ -97,7 +97,7 @@ app.post('/users/', (req, res) => {
   );
 });
 
-app.get('/manufacturers', queries.getManufacturers);
+app.get('/manufacturers', queries.getHandler('manufacturers'));
 app.post('/manufacturers', queries.postManufacturers);
 app.patch('/manufacturers/:manufacturersID', queries.patchManufacturers);
 app.delete('/manufacturers/:manufacturersID', queries.deleteManufacturers);
@@ -111,5 +111,7 @@ app.get('/purchaseOrders', queries.getPurchaseOrders);
 // app.post('/purchaseOrder', queries.postPurchaseOrders);
 // app.patch('/purchaseOrder/:poID', queries.patchPurchaseOrders);
 // app.delete('/PurchaseOrder/:poID', queries.deletePurchaseOrders);
+
+app.get('/customers', queries.getHandler('customers'));
 
 app.listen(port, () => console.log('listening on port 3000'));

@@ -8,6 +8,23 @@ const connection = new Pool({
 });
 
 //manufacturersQueries.js;
+const getHandler = (type) => {
+  let table = type;
+  return (req, res) => {
+    let search = req.query.search ? `%${req.query.search}%` : '%';
+    connection.query(
+      `SELECT * FROM ${table} WHERE company_name ILIKE $1`,
+      [search],
+      (error, results) => {
+        if (error) {
+          res.send(error.message);
+        } else {
+          res.send(JSON.stringify(results.rows));
+        }
+      }
+    );
+  };
+};
 
 const getManufacturers = (req, res) => {
   let search = req.query.search ? `%${req.query.search}%` : '%';
@@ -92,8 +109,8 @@ const postManufacturers = (req, res) => {
 const getItems = (req, res) => {
   let search = req.query.search ? `%${req.query.search}%` : '%';
   connection.query(
-    'SELECT * FROM items WHERE item_name ILIKE $1 OR item_desc ILIKE $2',
-    [search, search],
+    'SELECT * FROM items WHERE item_name ILIKE $1 OR item_desc ILIKE $1',
+    [search],
     (error, results) => {
       if (error) {
         res.send(error.message);
@@ -250,7 +267,7 @@ module.exports = {
   postItems,
   patchItems,
   deleteItems,
-  getManufacturers,
+  getHandler,
   postManufacturers,
   patchManufacturers,
   deleteManufacturers,
