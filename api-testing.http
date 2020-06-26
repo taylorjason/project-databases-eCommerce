@@ -25,3 +25,70 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3000/users/5 HTTP/1.1
+
+###### ITEMS
+
+###
+http://localhost:3000/items/?search=rocket
+
+###
+http://localhost:3000/items/
+
+###
+POST http://localhost:3000/items/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "item_name": "Satellite",
+    "item_desc": "A really awesome satellite",
+    "manufacturer_id": 1
+}
+
+###
+PATCH http://localhost:3000/items/1 HTTP/1.1
+Content-Type: application/json
+
+{
+    "item_desc": "A really, REALLY awesome airplane."
+}
+
+###
+DELETE http://localhost:3000/m/3 HTTP/1.1
+
+###### manufacturers
+
+###
+http://localhost:3000/manufacturers/?search=acme
+
+###
+http://localhost:3000/manufacturers/
+
+###
+POST http://localhost:3000/manufacturers/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "company_name": "ABC", 
+    "contact_name": "Jimmy Hoffa", 
+    "contact_email": "jimmysEmail", 
+    "contact_phone": "123-456-7890"
+}
+
+###
+PATCH http://localhost:3000/manufacturers/1 HTTP/1.1
+Content-Type: application/json
+
+{
+    "company_name": "ABC & Sons"
+}
+
+###
+DELETE http://localhost:3000/manufacturers/3 HTTP/1.1
+
+###### PURCHASE ORDERS
+
+###
+http://localhost:3000/purchaseOrders/?search=acme
+
+###
+http://localhost:3000/purchaseOrders/

@@ -2,6 +2,7 @@ const express = require('express');
 const bodyparser = require('body-parser');
 const { reset } = require('nodemon');
 const cookieParser = require('cookie-parser');
+const queries = require('./queries');
 const Pool = require('pg').Pool;
 const connection = new Pool({
   user: 'dev',
@@ -16,7 +17,6 @@ const port = 3000;
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(cookieParser());
-
 
 // USERS
 // http://localhost:3000/users/?search=Jason
@@ -36,10 +36,6 @@ app.get('/users/', (req, res) => {
     }
   );
 });
-
-/**
- *
- */
 
 app.patch('/users/:userID', (req, res) => {
   let update = req.body;
@@ -101,6 +97,19 @@ app.post('/users/', (req, res) => {
   );
 });
 
+app.get('/manufacturers', queries.getManufacturers);
+app.post('/manufacturers', queries.postManufacturers);
+app.patch('/manufacturers/:manufacturersID', queries.patchManufacturers);
+app.delete('/manufacturers/:manufacturersID', queries.deleteManufacturers);
 
+app.get('/items', queries.getItems);
+app.post('/items', queries.postItems);
+app.patch('/items/:itemID', queries.patchItems);
+app.delete('/items/:itemID', queries.deleteItems);
+
+app.get('/purchaseOrders', queries.getPurchaseOrders);
+// app.post('/purchaseOrder', queries.postPurchaseOrders);
+// app.patch('/purchaseOrder/:poID', queries.patchPurchaseOrders);
+// app.delete('/PurchaseOrder/:poID', queries.deletePurchaseOrders);
 
 app.listen(port, () => console.log('listening on port 3000'));
