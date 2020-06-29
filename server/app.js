@@ -12,7 +12,9 @@ const connection = new Pool({
   port: 5432
 });
 const app = express();
-const port = 3000;
+const port = 3001;
+
+
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
@@ -131,4 +133,4 @@ app.delete('/salesOrders/:salesID', queries.deleteSalesOrders);
 
 app.get('/customers', queries.getHandler('customers'));
 
-app.listen(port, () => console.log('listening on port 3000'));
+app.listen(port, () => console.log(`API listening on port ${port}`));
