@@ -1,5 +1,5 @@
 ###
-http://localhost:3000/users/?search=nick
+http://localhost:3000/users/?search=jason
 
 ###
 http://localhost:3000/users/
@@ -19,9 +19,18 @@ PATCH http://localhost:3000/users/1 HTTP/1.1
 Content-Type: application/json
 
 {
-    "first_name": "Jason",
-    "email": "email2"
+    "first_name": "Billy",
+    "email": "itChangedAgain"
 }
+
+###
+# PATCH http://localhost:3000/usersTest/1 HTTP/1.1
+# Content-Type: application/json
+
+# {
+#     "first_name": "newName",
+#     "email": "itChangedAgain"
+# }
 
 ###
 DELETE http://localhost:3000/users/5 HTTP/1.1
@@ -100,3 +109,37 @@ http://localhost:3000/purchaseOrders/?search=acme
 
 ###
 http://localhost:3000/purchaseOrders/
+
+### SALES ORDERS
+
+###
+http://localhost:3000/salesorders/?id=3&qty=99
+
+###
+http://localhost:3000/salesorders/
+
+###
+PATCH http://localhost:3000/salesorders/1 HTTP/1.1
+Content-Type: application/json
+
+{
+    "qty": 99,
+    "order_date": "1988-01-01 08:23:54+02"
+
+}
+
+###
+POST http://localhost:3000/salesorders/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "customer_id": 2, 
+    "order_date": "1999-01-01 08:23:54+02" ,
+    "date_recieved": "1999-01-01 08:23:54+02",
+    "item_id": 2,
+    "qty": 99,
+    "user_id": "2"
+
+}
+
+

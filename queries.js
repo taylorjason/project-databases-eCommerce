@@ -125,7 +125,7 @@ const patchItems = (req, res) => {
   let update = req.body;
   let updateStr = [];
   let id = req.params.itemID;
-
+  S;
   for (let key in update) {
     updateStr.push(`${key} = '${update[key]}'`);
   }
@@ -260,7 +260,106 @@ const postPurchaseOrders = (req, res) => {
   );
 }; //Test Ready
 
-///////////////////////////////////////////////////////////////
+///////////////////////////Sales Order////////////////////////////////////
+
+const getSalesOrders = (req, res) => {
+  let id = req.query.id; //? `${req.query.search}` : '[0-9]';
+  let date = req.query.date;
+
+  let opts = {
+    byId: {
+      query: 'SELECT * FROM salesorder WHERE id = $1 or customer_id = $1',
+      searchArray: [id]
+    },
+    byDate: {
+      query: 'SELECT * FROM salesorder WHERE date < $1',
+      searchArray: [date]
+    }
+  };
+
+  if (search) {
+    connection.query(
+      'SELECT * FROM salesorder WHERE id = $1 or customer_id = $1',
+      [search],
+      (error, results) => {
+        if (error) {
+          res.send(error.message);
+        } else {
+          res.send(JSON.stringify(results.rows));
+        }
+      }
+    );
+  } else {
+    connection.query('SELECT * FROM salesorder', (error, results) => {
+      if (error) {
+        res.send(error.message);
+      } else {
+        res.send(JSON.stringify(results.rows));
+      }
+    });
+  }
+}; //Ready for test
+
+const patchSalesOrders = (req, res) => {
+  let update = req.body;
+  let updateStr = [];
+  let id = req.params.salesID;
+
+  for (let key in update) {
+    updateStr.push(`${key} = '${update[key]}'`);
+  }
+  connection.query(
+    `UPDATE salesorder SET ${updateStr.join(', ')} WHERE id = $1 RETURNING *`,
+    [id],
+    (error, results) => {
+      if (error) {
+        res.send(error.message);
+      } else {
+        res.send(JSON.stringify(results.rows));
+      }
+    }
+  );
+}; //Ready to test
+
+const deleteSalesOrders = (req, res) => {
+  let deleteItem = req.params.salesID;
+
+  connection.query(
+    'DELETE FROM salesOrder WHERE id = $1 RETURNING *',
+    [deleteItem],
+    (error, results) => {
+      if (error) {
+        res.send(error.message);
+      } else {
+        res.send(JSON.stringify(results.rows));
+      }
+    }
+  );
+};
+
+const postSalesOrders = (req, res) => {
+  let newItem = req.body;
+  let newStr = [];
+
+  for (let key in newItem) {
+    newStr.push(`'${newItem[key]}'`);
+  }
+  console.log(newStr.join(', '));
+
+  let pass = '(' + newStr.join(', ') + ')';
+  connection.query(
+    `INSERT INTO salesorder (customer_id, order_date,date_recieved,item_id,qty,user_id) VALUES ${pass} RETURNING *`,
+    (error, results) => {
+      if (error) {
+        res.send(error.message);
+      } else {
+        res.send(JSON.stringify(results.rows));
+      }
+    }
+  );
+};
+
+//////////////////////////////////////////////////////////
 
 module.exports = {
   getItems,
@@ -268,8 +367,16 @@ module.exports = {
   patchItems,
   deleteItems,
   getHandler,
+  getManufacturers,
   postManufacturers,
   patchManufacturers,
   deleteManufacturers,
-  getPurchaseOrders
+  getPurchaseOrders,
+  postPurchaseOrders,
+  patchPurchaseOrders,
+  deletePurchaseOrders,
+  getSalesOrders,
+  postSalesOrders,
+  patchSalesOrders,
+  deleteSalesOrders
 };

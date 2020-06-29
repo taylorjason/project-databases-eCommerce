@@ -38,24 +38,36 @@ app.get('/users/', (req, res) => {
 });
 
 app.patch('/users/:userID', (req, res) => {
-  let update = req.body;
-  let updateStr = [];
   let id = req.params.userID;
 
-  for (let key in update) {
-    updateStr.push(`${key} = '${update[key]}'`);
-  }
-  connection.query(
-    `UPDATE users SET ${updateStr.join(', ')} WHERE id = $1 RETURNING *`,
-    [id],
-    (error, results) => {
-      if (error) {
-        res.send(error.message);
-      } else {
-        res.send(JSON.stringify(results.rows));
+  connection
+    .query('SELECT * FROM users where ID = $1', [id])
+    .then((results) => {
+      let user = results.rows[0];
+
+      for (let key in user) {
+        if (key in req.body) {
+          user[key] = req.body[key];
+        }
       }
-    }
-  );
+      return user;
+    })
+    .catch((err) => res.send(err.message))
+    .then((user) => {
+      console.log(user);
+      connection.query(
+        `UPDATE users SET first_name = $2, last_name = $3, email = $4 WHERE id = $1 RETURNING *`,
+        [id, user.first_name, user.last_name, user.email],
+        (error, results) => {
+          if (error) {
+            res.send(error.message);
+          } else {
+            res.send(JSON.stringify(results.rows));
+          }
+        }
+      );
+    })
+    .catch((err) => res.send(err.message));
 });
 
 app.delete('/users/:userID', (req, res) => {
@@ -102,15 +114,20 @@ app.post('/manufacturers', queries.postManufacturers);
 app.patch('/manufacturers/:manufacturersID', queries.patchManufacturers);
 app.delete('/manufacturers/:manufacturersID', queries.deleteManufacturers);
 
-app.get('/items', queries.getItems);
+app.get('/items', queries.getHandler('items'));
 app.post('/items', queries.postItems);
 app.patch('/items/:itemID', queries.patchItems);
 app.delete('/items/:itemID', queries.deleteItems);
 
 app.get('/purchaseOrders', queries.getPurchaseOrders);
-// app.post('/purchaseOrder', queries.postPurchaseOrders);
-// app.patch('/purchaseOrder/:poID', queries.patchPurchaseOrders);
-// app.delete('/PurchaseOrder/:poID', queries.deletePurchaseOrders);
+app.post('/purchaseOrders', queries.postPurchaseOrders);
+app.patch('/purchaseOrders/:poID', queries.patchPurchaseOrders);
+app.delete('/PurchaseOrders/:poID', queries.deletePurchaseOrders);
+
+app.get('/salesOrders', queries.getSalesOrders);
+app.post('/salesOrders', queries.postSalesOrders);
+app.patch('/salesOrders/:salesID', queries.patchSalesOrders);
+app.delete('/salesOrders/:salesID', queries.deleteSalesOrders);
 
 app.get('/customers', queries.getHandler('customers'));
 
