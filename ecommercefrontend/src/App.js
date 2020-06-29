@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
+// import NavBar from './components/navBar';
 import './App.css';
 
+
 function App() {
+  const [getPo, setPo] = useState(''); //Purchase Order
+  const [getSo, setSo] = useState(''); //Sales Order
+  const [getMan, setMan] = useState(''); //Manufacturer
+  const [getUser, setUser] = useState(''); //User
+  const [getCustomers, setCustomers] = useState(''); // Customers
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div class="grid-container">
+        <div class="navBar">
+        </div>
+        <div class="Footer">Footer</div>
+        <div class="main">
+          Main Body
+          <div class="mainDisplay">Main Display</div>
+          <div class="search">Search</div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,38 +1,42 @@
-.App {
+.App * {
   text-align: center;
+  border: solid grey 3px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 100px 1fr 50px;
+  gap: 1px 1px;
+  grid-template-areas: 'navBar' 'main' 'Footer';
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.navBar {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  gap: 1px 1px;
+  grid-template-areas: '. . . . .';
+  grid-area: navBar;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.Footer {
+  grid-area: Footer;
 }
 
-.App-link {
-  color: #61dafb;
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 65px 1fr;
+  gap: 1px 1px;
+  grid-template-areas: '. search .' 'mainDisplay mainDisplay mainDisplay';
+  grid-area: main;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.mainDisplay {
+  grid-area: mainDisplay;
+}
+
+.search {
+  grid-area: search;
 }
