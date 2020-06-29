@@ -5,16 +5,17 @@ import Customers from './components/Customers';
 import Users from './components/Users';
 
 function App() {
-  const [page, setPage] = useState('customers');
+  const [page, setPage] = useState('users');
 
   return (
     <div className="App">
-      <div class="grid-container">
-        <div class="navBar">
-          <Button title={'Users Button'} page = {'users'} setPage={setPage}/>
+      <div className="grid-container">
+        <div className="navBar">
+          <Button title={'Users Button'} page={'users'} setPage={setPage} />
           <Button
             title={'Customers Button'}
-            page = {'customers'} setPage={setPage}
+            page={'customers'}
+            setPage={setPage}
           />
           {/* <Button
             title={'Manufacturers Button'}
@@ -29,12 +30,12 @@ function App() {
             onClick={() => setPage('salesOrder')}
           /> */}
         </div>
-        <div class="Footer">Footer</div>
-        <div class="main">
-          <div class="search">Search</div>
-          <div class="mainDisplay">
+        <div className="Footer">Footer</div>
+        <div className="main">
+          <div className="search">Search</div>
+          <div className="mainDisplay">
             Main Display
-            {page === 'users' ? <Users /> : null}
+            {page === 'users' ? <Users id="1" /> : null}
             {page === 'customers' ? <Customers /> : null}
           </div>
         </div>

@@ -19,6 +19,12 @@ const port = 3001;
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(cookieParser());
+let allowCrossDomain = function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', '*');
+  next();
+};
+app.use(allowCrossDomain);
 
 // USERS
 // http://localhost:3000/users/?search=Jason
